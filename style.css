@@ -89,3 +89,19 @@ p {
   opacity: 1;
   transform: scale(1);
 }
+/* 💖 Floating hearts & butterflies (upwards) */
+.fly {
+  position: fixed;
+  bottom: -20px;
+  font-size: 16px;
+  animation: flyUp linear forwards;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@keyframes flyUp {
+  to {
+    transform: translateY(-120vh) rotate(360deg);
+    opacity: 0;
+  }
+}
