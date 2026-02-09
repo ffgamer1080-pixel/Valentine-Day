@@ -78,3 +78,18 @@ p {
     transform: translateY(120vh);
   }
 }
+#loveMessage {
+  margin-top: 30px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #ff4d6d;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 1s ease;
+  text-shadow: 0 0 15px rgba(255,77,109,0.8);
+}
+
+#loveMessage.show {
+  opacity: 1;
+  transform: scale(1);
+}
