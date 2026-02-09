@@ -1,32 +1,70 @@
-body {
-  margin: 0;
-  padding: 0;
-  background: #000000;
-  color: white;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
-  text-align: center;
+/* =========================
+   BACKGROUND TEXT RAIN
+   ========================= */
+
+const canvas = document.getElementById("textRain");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "HAPPY VALENTINE DAY ";
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = [];
+
+for (let i = 0; i < columns; i++) {
+  drops[i] = Math.random() * canvas.height;
 }
 
-/* Background canvas */
-#textRain {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+function drawTextRain() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#ff4da6";
+  ctx.font = fontSize + "px monospace";
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters.charAt(
+      Math.floor(Math.random() * letters.length)
+    );
+    ctx.fillText(text, i * fontSize, drops[i]);
+
+    if (drops[i] > canvas.height && Math.random() > 0.95) {
+      drops[i] = 0;
+    }
+    drops[i] += fontSize;
+  }
 }
 
-/* Main headline */
-.headline {
-  position: relative;
-  z-index: 5;
-  margin-top: 40px;
-  font-size: 34px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  color: #ff4da6;
-  text-shadow: 0 0 20px rgba(255, 77, 166, 0.9);
-  min-height: 45px;
+setInterval(drawTextRain, 50);
+
+/* =========================
+   MAIN TEXT AUTO CHANGE
+   ========================= */
+
+const texts = [
+  "HAPPY VALENTINE 💖",
+  "MY SWEETHEART ❤️",
+  "YOU ARE MY WORLD 🌍",
+  "I LOVE YOU 💌"
+];
+
+const mainText = document.getElementById("mainText");
+let textIndex = 0;
+let charIndex = 0;
+
+function typeEffect() {
+  if (charIndex < texts[textIndex].length) {
+    mainText.innerHTML += texts[textIndex].charAt(charIndex);
+    charIndex++;
+  } else {
+    setTimeout(() => {
+      mainText.innerHTML = "";
+      charIndex = 0;
+      textIndex = (textIndex + 1) % texts.length;
+    }, 2000);
+  }
 }
+
+setInterval(typeEffect, 120);
