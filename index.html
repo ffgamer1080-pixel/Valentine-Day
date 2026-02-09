@@ -1,54 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Happy Valentine Day 💖</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Happy Valentine Day 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #ff4e50, #f9d423);
-      font-family: Arial, sans-serif;
-      color: white;
-      text-align: center;
-    }
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff4e50, #f9d423);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+  }
 
-    h1 {
-      font-size: 2.5rem;
-      text-shadow: 0 0 15px rgba(0,0,0,0.4);
-    }
-  </style>
+  h1 {
+    font-size: 2.5rem;
+    text-shadow: 0 0 15px rgba(0,0,0,0.4);
+  }
+
+  #tap-text {
+    margin-top: 20px;
+    font-size: 1rem;
+    opacity: 0.9;
+    cursor: pointer;
+  }
+</style>
 </head>
 
 <body>
 
-  <h1>💖 Happy Valentine Day 💖</h1>
-  <p>Tap anywhere to feel the love 🎶</p>
+<h1>💖 Happy Valentine Day 💖</h1>
 
-  <!-- Music -->
-  <audio id="bg-music" loop preload="auto">
-    <source src="music/song.mp3" type="audio/mpeg">
-  </audio>
+<div id="tap-text">Tap here to start music 🎶</div>
 
-  <script>
-    const music = document.getElementById("bg-music");
+<audio id="bg-music" loop>
+  <source src="music/song.mp3" type="audio/mpeg">
+</audio>
 
-    function startMusicOnce() {
-      music.play().catch(() => {});
-      document.removeEventListener("click", startMusicOnce);
-      document.removeEventListener("touchstart", startMusicOnce);
-    }
+<script>
+  const music = document.getElementById("bg-music");
+  const tapText = document.getElementById("tap-text");
 
-    // First user interaction = music starts
-    document.addEventListener("click", startMusicOnce);
-    document.addEventListener("touchstart", startMusicOnce);
-  </script>
+  tapText.addEventListener("click", () => {
+    music.play();
+    tapText.style.display = "none"; // text gayab
+  });
+</script>
 
 </body>
 </html>
