@@ -6,9 +6,9 @@ const overlay = document.getElementById("rotateOverlay");
 
 function checkOrientation() {
   if (window.innerWidth > window.innerHeight) {
-    overlay.style.display = "none"; // landscape
+    overlay.style.display = "none";
   } else {
-    overlay.style.display = "flex"; // portrait
+    overlay.style.display = "flex";
   }
 }
 
@@ -17,7 +17,7 @@ window.addEventListener("orientationchange", checkOrientation);
 checkOrientation();
 
 /* =========================
-   BACKGROUND TEXT RAIN (FIXED)
+   BACKGROUND TEXT + HEART RAIN
    ========================= */
 
 const canvas = document.getElementById("textRain");
@@ -25,10 +25,10 @@ const ctx = canvas.getContext("2d");
 
 let fontSize = 14;
 let letters = "HAPPY VALENTINE DAY ";
+let hearts = ["❤️", "💖", "💗"];   // ❤️ hearts add
 let columns = 0;
 let drops = [];
 
-/* resize + full recalculation */
 function resizeCanvasAndReset() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -41,26 +41,32 @@ function resizeCanvasAndReset() {
   }
 }
 
-/* initial setup */
 resizeCanvasAndReset();
-
-/* IMPORTANT: rotate/resize pe FULL reset */
 window.addEventListener("resize", resizeCanvasAndReset);
 window.addEventListener("orientationchange", resizeCanvasAndReset);
 
-function drawTextRain() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
+function drawRain() {
+  ctx.fillStyle = "rgba(0,0,0,0.2)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = "#ff4da6";
   ctx.font = fontSize + "px monospace";
 
   for (let i = 0; i < drops.length; i++) {
-    const char = letters.charAt(
-      Math.floor(Math.random() * letters.length)
-    );
 
-    ctx.fillText(char, i * fontSize, drops[i]);
+    // 🔀 Randomly decide: text ya heart
+    let drawHeart = Math.random() < 0.08; // 8% hearts
+
+    if (drawHeart) {
+      ctx.fillStyle = "#ff4da6";
+      const heart = hearts[Math.floor(Math.random() * hearts.length)];
+      ctx.fillText(heart, i * fontSize, drops[i]);
+    } else {
+      ctx.fillStyle = "#ff4da6";
+      const char = letters.charAt(
+        Math.floor(Math.random() * letters.length)
+      );
+      ctx.fillText(char, i * fontSize, drops[i]);
+    }
 
     if (drops[i] > canvas.height && Math.random() > 0.96) {
       drops[i] = 0;
@@ -70,7 +76,7 @@ function drawTextRain() {
   }
 }
 
-setInterval(drawTextRain, 50);
+setInterval(drawRain, 50);
 
 /* =========================
    MAIN CENTER TEXT + BEAT SYNC
