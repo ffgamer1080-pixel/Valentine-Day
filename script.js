@@ -1,21 +1,48 @@
 /* =========================
+   ROTATE TO CONTINUE
+   ========================= */
+
+const overlay = document.getElementById("rotateOverlay");
+
+function checkOrientation() {
+  if (window.innerWidth > window.innerHeight) {
+    overlay.style.display = "none"; // landscape
+  } else {
+    overlay.style.display = "flex"; // portrait
+  }
+}
+
+window.addEventListener("resize", checkOrientation);
+window.addEventListener("orientationchange", checkOrientation);
+checkOrientation();
+
+/* =========================
    BACKGROUND TEXT RAIN
    ========================= */
 
 const canvas = document.getElementById("textRain");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
 const letters = "HAPPY VALENTINE DAY ";
 const fontSize = 14;
-const columns = canvas.width / fontSize;
-const drops = [];
+let columns = canvas.width / fontSize;
+let drops = [];
 
-for (let i = 0; i < columns; i++) {
-  drops[i] = Math.random() * canvas.height;
+function resetDrops() {
+  columns = canvas.width / fontSize;
+  drops = [];
+  for (let i = 0; i < columns; i++) {
+    drops[i] = Math.random() * canvas.height;
+  }
 }
+resetDrops();
 
 function drawTextRain() {
   ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
@@ -40,7 +67,7 @@ function drawTextRain() {
 setInterval(drawTextRain, 50);
 
 /* =========================
-   MAIN TEXT AUTO CHANGE
+   MAIN TEXT + BEAT SYNC
    ========================= */
 
 const texts = [
@@ -58,6 +85,11 @@ function typeEffect() {
   if (charIndex < texts[textIndex].length) {
     mainText.innerHTML += texts[textIndex].charAt(charIndex);
     charIndex++;
+
+    // 💓 Beat sync
+    mainText.classList.add("beat");
+    setTimeout(() => mainText.classList.remove("beat"), 300);
+
   } else {
     setTimeout(() => {
       mainText.innerHTML = "";
