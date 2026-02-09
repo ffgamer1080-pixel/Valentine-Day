@@ -1,112 +1,82 @@
-/* =========================
-   ROTATE TO CONTINUE + MUSIC
-   ========================= */
-
-const overlay = document.getElementById("rotateOverlay");
-const music = document.getElementById("bgMusic");
-let musicStarted = false;
-
-function checkOrientation() {
-  if (window.innerWidth > window.innerHeight) {
-    overlay.style.display = "none";
-
-    // ▶️ Start music ONLY once after rotate
-    if (!musicStarted) {
-      music.play().catch(() => {});
-      musicStarted = true;
-    }
-  } else {
-    overlay.style.display = "flex";
-  }
-}
-
-window.addEventListener("resize", checkOrientation);
-window.addEventListener("orientationchange", checkOrientation);
-checkOrientation();
-
-/* =========================
-   BACKGROUND TEXT + ❤️ EMOJI RAIN
-   ========================= */
-
+/* ===============================
+   ELEMENTS
+================================ */
+const rotateOverlay = document.getElementById("rotateOverlay");
+const tapText = document.getElementById("tap-text");
+const music = document.getElementById("bg-music");
 const canvas = document.getElementById("textRain");
 const ctx = canvas.getContext("2d");
 
-let fontSize = 14;
-const letters = "HAPPY VALENTINE DAY ";
-const heartEmojis = ["❤️","💖","💗","💓"];
-let columns = 0;
-let drops = [];
 
-function resizeCanvasAndReset() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  columns = Math.floor(canvas.width / fontSize);
-  drops = [];
-  for (let i = 0; i < columns; i++) {
-    drops[i] = Math.random() * canvas.height;
+/* ===============================
+   ORIENTATION CHECK
+================================ */
+function checkOrientation() {
+  if (window.innerWidth > window.innerHeight) {
+    // landscape
+    rotateOverlay.style.display = "none";
+    tapText.style.display = "block";
+  } else {
+    rotateOverlay.style.display = "flex";
+    tapText.style.display = "none";
   }
 }
 
-resizeCanvasAndReset();
-window.addEventListener("resize", resizeCanvasAndReset);
-window.addEventListener("orientationchange", resizeCanvasAndReset);
+window.addEventListener("load", checkOrientation);
+window.addEventListener("resize", checkOrientation);
+
+
+/* ===============================
+   MUSIC (HARD UNLOCK FIX)
+================================ */
+tapText.addEventListener("click", () => {
+  music.muted = false;
+  music.currentTime = 0;
+
+  const playPromise = music.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(err => {
+      console.log("Audio blocked:", err);
+    });
+  }
+
+  tapText.style.display = "none";
+});
+
+
+/* ===============================
+   TEXT RAIN
+================================ */
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const texts = ["💖", "❤", "Love", "Valentine", "😘", "🌹"];
+const drops = Array(60).fill(0);
 
 function drawRain() {
-  ctx.fillStyle = "rgba(0,0,0,0.18)";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  ctx.font = fontSize + "px monospace";
-  ctx.fillStyle = "#ff4da6";
+  ctx.fillStyle = "#fff";
+  ctx.font = "16px Arial";
 
-  for (let i = 0; i < drops.length; i++) {
-    const isHeart = Math.random() < 0.08;
+  drops.forEach((y, i) => {
+    const text = texts[Math.floor(Math.random() * texts.length)];
+    const x = i * (canvas.width / drops.length);
 
-    const char = isHeart
-      ? heartEmojis[Math.floor(Math.random() * heartEmojis.length)]
-      : letters.charAt(Math.floor(Math.random() * letters.length));
+    ctx.fillText(text, x, y);
 
-    ctx.fillText(char, i * fontSize, drops[i]);
-
-    if (drops[i] > canvas.height && Math.random() > 0.96) {
+    if (y > canvas.height && Math.random() > 0.97) {
       drops[i] = 0;
+    } else {
+      drops[i] += 2;
     }
-    drops[i] += fontSize;
-  }
+  });
 }
 
 setInterval(drawRain, 50);
 
-/* =========================
-   CENTER TEXT + BEAT SYNC
-   ========================= */
-
-const texts = [
-  "HAPPY VALENTINE 💖",
-  "MY SWEETHEART ❤️",
-  "YOU ARE MY WORLD 🌍",
-  "I LOVE YOU 💌"
-];
-
-const mainText = document.getElementById("mainText");
-let textIndex = 0;
-let charIndex = 0;
-
-function typeEffect() {
-  if (charIndex < texts[textIndex].length) {
-    mainText.innerHTML += texts[textIndex].charAt(charIndex);
-    charIndex++;
-
-    mainText.classList.add("beat");
-    setTimeout(() => mainText.classList.remove("beat"), 300);
-
-  } else {
-    setTimeout(() => {
-      mainText.innerHTML = "";
-      charIndex = 0;
-      textIndex = (textIndex + 1) % texts.length;
-    }, 2000);
-  }
-}
-
-setInterval(typeEffect, 120);
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
