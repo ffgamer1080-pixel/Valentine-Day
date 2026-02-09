@@ -9,19 +9,19 @@
 
 <body>
 
-  <!-- ROTATE TO CONTINUE -->
+  <!-- ROTATE OVERLAY -->
   <div id="rotateOverlay">
     <div class="phone"></div>
     <p>ROTATE YOUR PHONE</p>
   </div>
 
-  <!-- BACKGROUND TEXT RAIN -->
+  <!-- TEXT RAIN CANVAS -->
   <canvas id="textRain"></canvas>
 
-  <!-- CENTER MAIN TEXT -->
+  <!-- MAIN CENTER TEXT -->
   <div class="headline" id="mainText"></div>
 
-  <!-- TAP TO PLAY MUSIC (minimal, interface safe) -->
+  <!-- TAP TO PLAY MUSIC -->
   <div id="tap-text"
        style="
          position: fixed;
@@ -31,29 +31,19 @@
          font-size: 14px;
          opacity: 0.85;
          cursor: pointer;
-         z-index: 5;
+         z-index: 10;
+         display: none;
        ">
     🎵 Tap to start music
   </div>
 
   <!-- MUSIC -->
-  <audio id="bg-music" loop>
+  <audio id="bg-music" preload="auto" loop>
     <source src="music/song.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- EXISTING SCRIPT -->
+  <!-- SCRIPT -->
   <script src="script.js"></script>
-
-  <!-- MUSIC SCRIPT -->
-  <script>
-    const music = document.getElementById("bg-music");
-    const tapText = document.getElementById("tap-text");
-
-    tapText.addEventListener("click", () => {
-      music.play();
-      tapText.style.display = "none";
-    });
-  </script>
 
 </body>
 </html>
