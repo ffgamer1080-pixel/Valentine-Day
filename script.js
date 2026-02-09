@@ -9,11 +9,10 @@ const ctx = canvas.getContext("2d");
 
 
 /* ===============================
-   ORIENTATION CHECK
+   ORIENTATION FIX
 ================================ */
 function checkOrientation() {
   if (window.innerWidth > window.innerHeight) {
-    // landscape
     rotateOverlay.style.display = "none";
     tapText.style.display = "block";
   } else {
@@ -27,56 +26,51 @@ window.addEventListener("resize", checkOrientation);
 
 
 /* ===============================
-   MUSIC (HARD UNLOCK FIX)
+   MUSIC (100% SAFE)
 ================================ */
 tapText.addEventListener("click", () => {
   music.muted = false;
   music.currentTime = 0;
-
-  const playPromise = music.play();
-  if (playPromise !== undefined) {
-    playPromise.catch(err => {
-      console.log("Audio blocked:", err);
-    });
-  }
-
+  music.play().catch(() => {});
   tapText.style.display = "none";
 });
 
 
 /* ===============================
-   TEXT RAIN
+   TEXT RAIN (SMOOTH & FIXED)
 ================================ */
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
-const texts = ["💖", "❤", "Love", "Valentine", "😘", "🌹"];
-const drops = Array(60).fill(0);
+const texts = ["💖", "❤", "Love", "🌹"];
+const fontSize = 18;
+let columns = Math.floor(canvas.width / fontSize);
+let drops = Array(columns).fill(0);
 
 function drawRain() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillStyle = "rgba(0,0,0,0.15)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = "#fff";
-  ctx.font = "16px Arial";
+  ctx.fillStyle = "#ffffff";
+  ctx.font = fontSize + "px Arial";
 
-  drops.forEach((y, i) => {
+  for (let i = 0; i < drops.length; i++) {
     const text = texts[Math.floor(Math.random() * texts.length)];
-    const x = i * (canvas.width / drops.length);
+    const x = i * fontSize;
+    const y = drops[i] * fontSize;
 
     ctx.fillText(text, x, y);
 
     if (y > canvas.height && Math.random() > 0.97) {
       drops[i] = 0;
     } else {
-      drops[i] += 2;
+      drops[i]++;
     }
-  });
+  }
 }
 
-setInterval(drawRain, 50);
-
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
+setInterval(drawRain, 80);
