@@ -17,49 +17,55 @@ window.addEventListener("orientationchange", checkOrientation);
 checkOrientation();
 
 /* =========================
-   BACKGROUND TEXT RAIN
+   BACKGROUND TEXT RAIN (FIXED)
    ========================= */
 
 const canvas = document.getElementById("textRain");
 const ctx = canvas.getContext("2d");
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-const letters = "HAPPY VALENTINE DAY ";
-const fontSize = 14;
-let columns = canvas.width / fontSize;
+let fontSize = 14;
+let letters = "HAPPY VALENTINE DAY ";
+let columns = 0;
 let drops = [];
 
-function resetDrops() {
-  columns = canvas.width / fontSize;
+/* resize + full recalculation */
+function resizeCanvasAndReset() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  columns = Math.floor(canvas.width / fontSize);
   drops = [];
+
   for (let i = 0; i < columns; i++) {
     drops[i] = Math.random() * canvas.height;
   }
 }
-resetDrops();
+
+/* initial setup */
+resizeCanvasAndReset();
+
+/* IMPORTANT: rotate/resize pe FULL reset */
+window.addEventListener("resize", resizeCanvasAndReset);
+window.addEventListener("orientationchange", resizeCanvasAndReset);
 
 function drawTextRain() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   ctx.fillStyle = "#ff4da6";
   ctx.font = fontSize + "px monospace";
 
   for (let i = 0; i < drops.length; i++) {
-    const text = letters.charAt(
+    const char = letters.charAt(
       Math.floor(Math.random() * letters.length)
     );
-    ctx.fillText(text, i * fontSize, drops[i]);
 
-    if (drops[i] > canvas.height && Math.random() > 0.95) {
+    ctx.fillText(char, i * fontSize, drops[i]);
+
+    if (drops[i] > canvas.height && Math.random() > 0.96) {
       drops[i] = 0;
     }
+
     drops[i] += fontSize;
   }
 }
@@ -67,7 +73,7 @@ function drawTextRain() {
 setInterval(drawTextRain, 50);
 
 /* =========================
-   MAIN TEXT + BEAT SYNC
+   MAIN CENTER TEXT + BEAT SYNC
    ========================= */
 
 const texts = [
@@ -86,7 +92,6 @@ function typeEffect() {
     mainText.innerHTML += texts[textIndex].charAt(charIndex);
     charIndex++;
 
-    // 💓 Beat sync
     mainText.classList.add("beat");
     setTimeout(() => mainText.classList.remove("beat"), 300);
 
