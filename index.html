@@ -21,23 +21,19 @@
 
     h1 {
       font-size: 2.5rem;
-      text-shadow: 0 0 10px rgba(0,0,0,0.4);
+      text-shadow: 0 0 15px rgba(0,0,0,0.4);
     }
 
     button {
-      margin-top: 20px;
-      padding: 12px 25px;
-      font-size: 1.1rem;
+      margin-top: 25px;
+      padding: 14px 30px;
+      font-size: 1.2rem;
       border: none;
-      border-radius: 30px;
-      background: #fff;
+      border-radius: 40px;
+      background: white;
       color: #ff4e50;
       cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
-
-    button:active {
-      transform: scale(0.95);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
     }
   </style>
 </head>
@@ -45,23 +41,17 @@
 <body>
 
   <h1>💖 Happy Valentine Day 💖</h1>
-  <p>For Someone Special 🌹</p>
+  <p>Tap the heart to start music 🎶</p>
 
-  <!-- Background Music -->
-  <audio id="bg-music" loop>
+  <!-- Music -->
+  <audio id="bg-music" loop preload="auto">
     <source src="music/song.mp3" type="audio/mpeg">
-    Your browser does not support audio.
   </audio>
 
   <!-- Play Button -->
-  <button onclick="playMusic()">🎵 Play Music</button>
+  <button onclick="startMusic()">💖 Play Music</button>
 
   <script>
-    function playMusic() {
+    function startMusic() {
       const music = document.getElementById("bg-music");
-      music.play();
-    }
-  </script>
-
-</body>
-</html>
+      music.play().catch(err
