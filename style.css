@@ -50,10 +50,6 @@ p {
   object-fit: cover;
   border-radius: 18px;
 }
-
-/* Flip effect */
-.page.flipped {
-  transform: rotateY(-180deg);
 }
 
 /* 🌧️ Rain background */
