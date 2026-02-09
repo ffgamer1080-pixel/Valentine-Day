@@ -1,12 +1,20 @@
 /* =========================
-   ROTATE TO CONTINUE
+   ROTATE TO CONTINUE + MUSIC
    ========================= */
 
 const overlay = document.getElementById("rotateOverlay");
+const music = document.getElementById("bgMusic");
+let musicStarted = false;
 
 function checkOrientation() {
   if (window.innerWidth > window.innerHeight) {
     overlay.style.display = "none";
+
+    // ▶️ Start music ONLY once after rotate
+    if (!musicStarted) {
+      music.play().catch(() => {});
+      musicStarted = true;
+    }
   } else {
     overlay.style.display = "flex";
   }
@@ -17,15 +25,15 @@ window.addEventListener("orientationchange", checkOrientation);
 checkOrientation();
 
 /* =========================
-   BACKGROUND TEXT + HEART RAIN
+   BACKGROUND TEXT + ❤️ EMOJI RAIN
    ========================= */
 
 const canvas = document.getElementById("textRain");
 const ctx = canvas.getContext("2d");
 
 let fontSize = 14;
-let letters = "HAPPY VALENTINE DAY ";
-let hearts = ["❤️", "💖", "💗"];   // ❤️ hearts add
+const letters = "HAPPY VALENTINE DAY ";
+const heartEmojis = ["❤️","💖","💗","💓"];
 let columns = 0;
 let drops = [];
 
@@ -35,7 +43,6 @@ function resizeCanvasAndReset() {
 
   columns = Math.floor(canvas.width / fontSize);
   drops = [];
-
   for (let i = 0; i < columns; i++) {
     drops[i] = Math.random() * canvas.height;
   }
@@ -46,32 +53,24 @@ window.addEventListener("resize", resizeCanvasAndReset);
 window.addEventListener("orientationchange", resizeCanvasAndReset);
 
 function drawRain() {
-  ctx.fillStyle = "rgba(0,0,0,0.2)";
+  ctx.fillStyle = "rgba(0,0,0,0.18)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   ctx.font = fontSize + "px monospace";
+  ctx.fillStyle = "#ff4da6";
 
   for (let i = 0; i < drops.length; i++) {
+    const isHeart = Math.random() < 0.08;
 
-    // 🔀 Randomly decide: text ya heart
-    let drawHeart = Math.random() < 0.08; // 8% hearts
+    const char = isHeart
+      ? heartEmojis[Math.floor(Math.random() * heartEmojis.length)]
+      : letters.charAt(Math.floor(Math.random() * letters.length));
 
-    if (drawHeart) {
-      ctx.fillStyle = "#ff4da6";
-      const heart = hearts[Math.floor(Math.random() * hearts.length)];
-      ctx.fillText(heart, i * fontSize, drops[i]);
-    } else {
-      ctx.fillStyle = "#ff4da6";
-      const char = letters.charAt(
-        Math.floor(Math.random() * letters.length)
-      );
-      ctx.fillText(char, i * fontSize, drops[i]);
-    }
+    ctx.fillText(char, i * fontSize, drops[i]);
 
     if (drops[i] > canvas.height && Math.random() > 0.96) {
       drops[i] = 0;
     }
-
     drops[i] += fontSize;
   }
 }
@@ -79,11 +78,11 @@ function drawRain() {
 setInterval(drawRain, 50);
 
 /* =========================
-   MAIN CENTER TEXT + BEAT SYNC
+   CENTER TEXT + BEAT SYNC
    ========================= */
 
 const texts = [
-  "HAPPY VALENTINE DAY 💖",
+  "HAPPY VALENTINE 💖",
   "MY SWEETHEART ❤️",
   "YOU ARE MY WORLD 🌍",
   "I LOVE YOU 💌"
