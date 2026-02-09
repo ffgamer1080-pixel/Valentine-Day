@@ -67,3 +67,19 @@ button:active {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+.image-box {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.image-box img {
+  width: 90%;
+  max-width: 320px;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
