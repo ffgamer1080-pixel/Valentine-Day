@@ -1,3 +1,4 @@
+/* Book flip */
 let currentPage = 0;
 const pages = document.querySelectorAll(".page");
 
@@ -8,19 +9,22 @@ function flipPage() {
   }
 }
 
-/* 🌧️ Background rain effect */
-function createDrop() {
-  const drop = document.createElement("div");
-  drop.classList.add("drop");
-  drop.innerText = "💧";
-  drop.style.left = Math.random() * 100 + "vw";
-  drop.style.animationDuration = 2 + Math.random() * 3 + "s";
+/* 🌧️ Pure background rain (line drops) */
+const rainContainer = document.createElement("div");
+rainContainer.className = "rain";
+document.body.appendChild(rainContainer);
 
-  document.body.appendChild(drop);
+function createRainDrop() {
+  const drop = document.createElement("div");
+  drop.className = "drop";
+  drop.style.left = Math.random() * window.innerWidth + "px";
+  drop.style.animationDuration = 0.8 + Math.random() * 0.7 + "s";
+
+  rainContainer.appendChild(drop);
 
   setTimeout(() => {
     drop.remove();
-  }, 5000);
+  }, 2000);
 }
 
-setInterval(createDrop, 300);
+setInterval(createRainDrop, 80);
