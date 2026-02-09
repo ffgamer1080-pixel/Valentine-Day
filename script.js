@@ -83,7 +83,7 @@ setInterval(drawRain, 50);
    ========================= */
 
 const texts = [
-  "HAPPY VALENTINE 💖",
+  "HAPPY VALENTINE DAY 💖",
   "MY SWEETHEART ❤️",
   "YOU ARE MY WORLD 🌍",
   "I LOVE YOU 💌"
