@@ -1,15 +1,19 @@
-/* Book flip */
 let currentPage = 0;
 const pages = document.querySelectorAll(".page");
 
-function flipPage() {
+/* Auto page flip */
+setInterval(() => {
   if (currentPage < pages.length) {
     pages[currentPage].classList.add("flipped");
     currentPage++;
+  } else {
+    // last page ke baad book reset
+    pages.forEach(page => page.classList.remove("flipped"));
+    currentPage = 0;
   }
-}
+}, 3000); // har 3 second me page paltega
 
-/* 🌧️ Pure background rain (line drops) */
+/* 🌧️ Background rain (real lines) */
 const rainContainer = document.createElement("div");
 rainContainer.className = "rain";
 document.body.appendChild(rainContainer);
