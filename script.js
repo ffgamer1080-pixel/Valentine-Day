@@ -7,18 +7,6 @@ pages.forEach((page, index) => {
   page.style.zIndex = pages.length - index;
 });
 
-/* auto flip */
-setInterval(() => {
-  if (current < pages.length) {
-    pages[current].classList.add("flipped");
-    current++;
-  } else {
-    // reset book
-    pages.forEach(page => page.classList.remove("flipped"));
-    current = 0;
-  }
-}, 3000); // 3 sec per photo
-
 /* 🌧️ REAL BACKGROUND RAIN */
 const rain = document.createElement("div");
 rain.className = "rain";
@@ -31,6 +19,26 @@ function createDrop() {
   drop.style.animationDuration = 0.3 + Math.random() * 0.2 + "s";
   rain.appendChild(drop);
 
+  /* 💖 Hearts & 🦋 Butterflies flying UP */
+const flyIcons = ["❤️", "💖", "💗", "🦋", "💙", "💜"];
+
+function createFly() {
+  const el = document.createElement("div");
+  el.className = "fly";
+  el.innerText = flyIcons[Math.floor(Math.random() * flyIcons.length)];
+  el.style.left = Math.random() * window.innerWidth + "px";
+  el.style.fontSize = 14 + Math.random() * 10 + "px";
+  el.style.animationDuration = 4 + Math.random() * 3 + "s";
+
+  document.body.appendChild(el);
+
+  setTimeout(() => {
+    el.remove();
+  }, 7000);
+}
+
+setInterval(createFly, 600);
+  
   setTimeout(() => drop.remove(), 2000);
 }
 
