@@ -1,34 +1,37 @@
-let currentPage = 0;
+/* 📖 BOOK AUTO PAGE FLIP (FIXED) */
 const pages = document.querySelectorAll(".page");
+let current = 0;
 
-/* Auto page flip */
+/* set proper stacking order */
+pages.forEach((page, index) => {
+  page.style.zIndex = pages.length - index;
+});
+
+/* auto flip */
 setInterval(() => {
-  if (currentPage < pages.length) {
-    pages[currentPage].classList.add("flipped");
-    currentPage++;
+  if (current < pages.length) {
+    pages[current].classList.add("flipped");
+    current++;
   } else {
-    // last page ke baad book reset
+    // reset book
     pages.forEach(page => page.classList.remove("flipped"));
-    currentPage = 0;
+    current = 0;
   }
-}, 3000); // har 3 second me page paltega
+}, 3000); // 3 sec per photo
 
-/* 🌧️ Background rain (real lines) */
-const rainContainer = document.createElement("div");
-rainContainer.className = "rain";
-document.body.appendChild(rainContainer);
+/* 🌧️ REAL BACKGROUND RAIN */
+const rain = document.createElement("div");
+rain.className = "rain";
+document.body.appendChild(rain);
 
-function createRainDrop() {
+function createDrop() {
   const drop = document.createElement("div");
   drop.className = "drop";
   drop.style.left = Math.random() * window.innerWidth + "px";
   drop.style.animationDuration = 0.8 + Math.random() * 0.7 + "s";
+  rain.appendChild(drop);
 
-  rainContainer.appendChild(drop);
-
-  setTimeout(() => {
-    drop.remove();
-  }, 2000);
+  setTimeout(() => drop.remove(), 2000);
 }
 
-setInterval(createRainDrop, 80);
+setInterval(createDrop, 80);
