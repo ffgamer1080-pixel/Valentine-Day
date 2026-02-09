@@ -7,7 +7,7 @@ body {
   text-align: center;
 }
 
-/* Background text rain canvas */
+/* Background canvas */
 #textRain {
   position: fixed;
   inset: 0;
@@ -27,15 +27,15 @@ body {
   width: 100%;
   text-align: center;
 
-  font-size: 50px;
+  font-size: 36px;
   font-weight: bold;
-  letter-spacing: 5px;
+  letter-spacing: 2px;
   color: #ff4da6;
   text-shadow: 0 0 25px rgba(255, 77, 166, 0.9);
   min-height: 50px;
 }
 
-/* 💓 Soft glow circle + slow pulse */
+/* 💓 Glow circle + slow pulse */
 .headline::before {
   content: "";
   position: absolute;
@@ -52,31 +52,30 @@ body {
     rgba(255, 77, 166, 0.06) 60%,
     rgba(255, 77, 166, 0) 70%
   );
-  filter: blur(20px);
+  filter: blur(14px);
   z-index: -1;
   animation: glowPulse 4s ease-in-out infinite;
 }
 
-/* Slow pulse */
 @keyframes glowPulse {
-  0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
-  50%  { transform: translate(-50%, -50%) scale(1.12); opacity: 1; }
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50% { transform: translate(-50%, -50%) scale(1.12); opacity: 1; }
   100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
 }
 
-/* 💓 Beat sync (triggered by JS) */
+/* Beat sync */
 .headline.beat::before {
   animation: beatGlow 0.6s ease-out;
 }
 
 @keyframes beatGlow {
-  0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-  50%  { transform: translate(-50%, -50%) scale(1.25); opacity: 1; }
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+  50% { transform: translate(-50%, -50%) scale(1.25); opacity: 1; }
   100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
 }
 
 /* ======================
-   ROTATE SCREEN OVERLAY
+   ROTATE OVERLAY
    ====================== */
 
 #rotateOverlay {
@@ -103,7 +102,7 @@ body {
 }
 
 @keyframes rotatePhone {
-  0%   { transform: rotate(0deg); }
-  50%  { transform: rotate(90deg); }
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(90deg); }
   100% { transform: rotate(0deg); }
 }
