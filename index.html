@@ -1,57 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Happy Valentine Day 💖</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(135deg, #ff4e50, #f9d423);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    color: white;
-    text-align: center;
-  }
-
-  h1 {
-    font-size: 2.5rem;
-    text-shadow: 0 0 15px rgba(0,0,0,0.4);
-  }
-
-  #tap-text {
-    margin-top: 20px;
-    font-size: 1rem;
-    opacity: 0.9;
-    cursor: pointer;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine 💖</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-<h1>💖 Happy Valentine Day 💖</h1>
+  <!-- ROTATE TO CONTINUE -->
+  <div id="rotateOverlay">
+    <div class="phone"></div>
+    <p>ROTATE YOUR PHONE</p>
+  </div>
 
-<div id="tap-text">Tap here to start music 🎶</div>
+  <!-- BACKGROUND TEXT RAIN -->
+  <canvas id="textRain"></canvas>
 
-<audio id="bg-music" loop>
-  <source src="music/song.mp3" type="audio/mpeg">
-</audio>
+  <!-- CENTER MAIN TEXT -->
+  <div class="headline" id="mainText"></div>
 
-<script>
-  const music = document.getElementById("bg-music");
-  const tapText = document.getElementById("tap-text");
+  <!-- TAP TO PLAY MUSIC (minimal, interface safe) -->
+  <div id="tap-text"
+       style="
+         position: fixed;
+         bottom: 20px;
+         left: 50%;
+         transform: translateX(-50%);
+         font-size: 14px;
+         opacity: 0.85;
+         cursor: pointer;
+         z-index: 5;
+       ">
+    🎵 Tap to start music
+  </div>
 
-  tapText.addEventListener("click", () => {
-    music.play();
-    tapText.style.display = "none"; // text gayab
-  });
-</script>
+  <!-- MUSIC -->
+  <audio id="bg-music" loop>
+    <source src="music/song.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- EXISTING SCRIPT -->
+  <script src="script.js"></script>
+
+  <!-- MUSIC SCRIPT -->
+  <script>
+    const music = document.getElementById("bg-music");
+    const tapText = document.getElementById("tap-text");
+
+    tapText.addEventListener("click", () => {
+      music.play();
+      tapText.style.display = "none";
+    });
+  </script>
 
 </body>
 </html>
