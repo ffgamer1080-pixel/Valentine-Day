@@ -28,10 +28,10 @@ function createDrop() {
   const drop = document.createElement("div");
   drop.className = "drop";
   drop.style.left = Math.random() * window.innerWidth + "px";
-  drop.style.animationDuration = 0.8 + Math.random() * 0.7 + "s";
+  drop.style.animationDuration = 0.3 + Math.random() * 0.2 + "s";
   rain.appendChild(drop);
 
   setTimeout(() => drop.remove(), 2000);
 }
 
-setInterval(createDrop, 80);
+setInterval(createDrop, 180);
