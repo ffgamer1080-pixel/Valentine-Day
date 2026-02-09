@@ -1,0 +1,25 @@
+body {
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+  text-align: center;
+  color: white;
+  font-family: cursive;
+  padding-top: 70px;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+p {
+  font-size: 18px;
+}
+
+button {
+  background: crimson;
+  border: none;
+  padding: 12px 30px;
+  font-size: 18px;
+  border-radius: 30px;
+  color: white;
+  cursor: pointer;
+}
