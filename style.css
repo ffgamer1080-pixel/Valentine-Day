@@ -19,12 +19,12 @@ body {
 
 .rain-photo {
   position: absolute;
-  top: -120px;
-  width: 60px;
-  height: 80px;
+  top: -100px;
+  width: 70px;
+  height: 90px;
   object-fit: cover;
-  border-radius: 10px;
-  opacity: 0.75;
+  border-radius: 15px;
+  opacity: 1.75;
   filter: blur(0.3px);
   animation: fallSlow linear forwards;
 }
