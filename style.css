@@ -5,34 +5,24 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* PHOTO RAIN */
-
 #photoRain, #butterflyLayer {
   position: fixed;
   inset: 0;
   pointer-events: none;
 }
 
+/* PHOTO RAIN */
+
 .rain-photo {
   position: absolute;
   top: -180px;
-
-  /* 🔥 BIG & BRIGHT PHOTO */
   width: 110px;
   height: 150px;
-
   object-fit: cover;
   border-radius: 14px;
-
-  /* 🌟 BRIGHTNESS + COLOR BOOST */
-  filter: brightness(1.4) contrast(1.1) saturate(1.2);
-
   opacity: 0.95;
-
-  box-shadow:
-    0 0 30px rgba(255,77,166,0.45),
-    0 0 60px rgba(255,77,166,0.25);
-
+  filter: brightness(1.4) contrast(1.1) saturate(1.2);
+  box-shadow: 0 0 30px rgba(255,77,166,0.45);
   animation: fallSlow linear forwards;
 }
 
@@ -43,7 +33,7 @@ body {
   }
 }
 
-/* 🦋 BUTTERFLY FLIGHT */
+/* BUTTERFLY */
 
 .butterfly-wrapper {
   position: absolute;
@@ -59,11 +49,9 @@ body {
 
 .butterfly {
   font-size: 34px;
-  margin-top: 6px;
-  filter: brightness(1.3);
 }
 
-/* 🎵 MUSIC BUTTON */
+/* MUSIC BUTTON */
 
 #musicToggle {
   position: fixed;
@@ -71,28 +59,25 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 20;
-
   width: 70px;
   height: 70px;
   border-radius: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-size: 30px;
   cursor: pointer;
-
   background: rgba(255,77,166,0.18);
-  box-shadow:
-    0 0 30px rgba(255,77,166,0.9),
-    inset 0 0 18px rgba(255,77,166,0.6);
-
+  box-shadow: 0 0 30px rgba(255,77,166,0.9);
   animation: pulse 3s infinite;
 }
 
 @keyframes pulse {
-  50% { transform: translate(-50%, -50%) scale(1.15); }
+  50% {
+    transform: translate(-50%, -50%) scale(1.15);
+  }
 }
 
-.music-off { opacity: 0.5; }
+.music-off {
+  opacity: 0.5;
+}
