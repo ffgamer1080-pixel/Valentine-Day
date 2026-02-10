@@ -11,7 +11,7 @@ body {
   pointer-events: none;
 }
 
-/* PHOTO RAIN */
+/* 📸 PHOTO RAIN – FASTER */
 
 .rain-photo {
   position: absolute;
@@ -23,35 +23,43 @@ body {
   opacity: 0.95;
   filter: brightness(1.4) contrast(1.1) saturate(1.2);
   box-shadow: 0 0 30px rgba(255,77,166,0.45);
-  animation: fallSlow linear forwards;
+  animation: fallFast linear forwards;
 }
 
-@keyframes fallSlow {
+@keyframes fallFast {
   to {
-    transform: translateY(140vh) rotate(10deg);
+    transform: translateY(160vh) rotate(12deg);
     opacity: 0;
   }
 }
 
-/* BUTTERFLY */
+/* 🦋 BUTTERFLY (REALISTIC) */
 
 .butterfly-wrapper {
   position: absolute;
-  animation: flyUp linear forwards;
+  animation: butterflyFly linear forwards;
 }
 
-@keyframes flyUp {
-  to {
-    transform: translateY(-140vh);
-    opacity: 0;
-  }
+@keyframes butterflyFly {
+  0%   { transform: translate(0, 0); opacity: 1; }
+  30%  { transform: translate(35px, -120px); }
+  60%  { transform: translate(-25px, -260px); }
+  100% { transform: translate(15px, -420px); opacity: 0; }
 }
 
 .butterfly {
   font-size: 34px;
+  animation: wingFlap 0.6s infinite ease-in-out;
+  filter: drop-shadow(0 0 8px rgba(255,150,220,0.8));
 }
 
-/* MUSIC BUTTON */
+@keyframes wingFlap {
+  0%   { transform: scaleX(1); }
+  50%  { transform: scaleX(0.6); }
+  100% { transform: scaleX(1); }
+}
+
+/* 🎵 MUSIC BUTTON */
 
 #musicToggle {
   position: fixed;
@@ -73,11 +81,7 @@ body {
 }
 
 @keyframes pulse {
-  50% {
-    transform: translate(-50%, -50%) scale(1.15);
-  }
+  50% { transform: translate(-50%, -50%) scale(1.15); }
 }
 
-.music-off {
-  opacity: 0.5;
-}
+.music-off { opacity: 0.5; }
