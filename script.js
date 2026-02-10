@@ -1,5 +1,5 @@
-// ================= PHOTOS =================
-const photos = [
+// ================= CONFIG =================
+const PHOTOS = [
   "Photo/s1.jpg",
   "Photo/s2.jpg",
   "Photo/s3.jpg",
@@ -8,52 +8,70 @@ const photos = [
   "Photo/s6.jpg"
 ];
 
-// ================ WINGS ===================
 const WING_LEFT = "Butterfly/wing-left.png";
 const WING_RIGHT = "Butterfly/wing-right.png";
 
-// ================ ELEMENTS =================
+const RAIN_TEXT = "❤️ I LOVE YOU 🩷";
+
+// ================= ELEMENTS =================
 const sky = document.getElementById("sky");
+const textRain = document.getElementById("textRain");
 const music = document.getElementById("bgMusic");
 const toggle = document.getElementById("musicToggle");
 
-// ================ WAKE LOCK ================
+// ================= WAKE LOCK =================
 if ("wakeLock" in navigator) {
   navigator.wakeLock.request("screen").catch(() => {});
 }
 
-// ================ MUSIC ====================
-let isPlaying = false;
-toggle.addEventListener("click", () => {
-  if (isPlaying) {
+// ================= MUSIC =================
+let playing = false;
+toggle.onclick = () => {
+  if (playing) {
     music.pause();
     toggle.textContent = "🎵";
   } else {
     music.play();
     toggle.textContent = "🔊";
   }
-  isPlaying = !isPlaying;
-});
+  playing = !playing;
+};
 
-// ================ BUTTERFLY ================
+// ================= TEXT RAIN =================
+function createTextRain() {
+  const span = document.createElement("div");
+  span.className = "rain-text";
+  span.textContent = RAIN_TEXT;
+
+  span.style.left = Math.random() * window.innerWidth + "px";
+  span.style.animationDuration = 6 + Math.random() * 4 + "s";
+
+  textRain.appendChild(span);
+
+  setTimeout(() => span.remove(), 10000);
+}
+
+setInterval(createTextRain, 300);
+
+// ================= BUTTERFLY =================
 function createButterfly() {
-  const butterfly = document.createElement("div");
-  butterfly.className = "butterfly";
+  const b = document.createElement("div");
+  b.className = "butterfly";
 
   const body = document.createElement("img");
   body.className = "body";
-  body.src = photos[Math.floor(Math.random() * photos.length)];
+  body.src = PHOTOS[Math.floor(Math.random() * PHOTOS.length)];
 
-  const leftWing = document.createElement("img");
-  leftWing.className = "wing left";
-  leftWing.src = WING_LEFT;
+  const left = document.createElement("img");
+  left.className = "wing left";
+  left.src = WING_LEFT;
 
-  const rightWing = document.createElement("img");
-  rightWing.className = "wing right";
-  rightWing.src = WING_RIGHT;
+  const right = document.createElement("img");
+  right.className = "wing right";
+  right.src = WING_RIGHT;
 
-  butterfly.append(leftWing, body, rightWing);
-  sky.appendChild(butterfly);
+  b.append(left, body, right);
+  sky.appendChild(b);
 
   let x = Math.random() * (window.innerWidth - 160);
   let y = window.innerHeight + 160;
@@ -64,17 +82,15 @@ function createButterfly() {
   function fly() {
     y -= speed;
     x += drift;
-    butterfly.style.transform = `translate(${x}px, ${y}px)`;
+    b.style.transform = `translate(${x}px, ${y}px)`;
 
     if (y > -200) {
       requestAnimationFrame(fly);
     } else {
-      butterfly.remove();
+      b.remove();
     }
   }
-
   fly();
 }
 
-// ================ SPAWN ====================
 setInterval(createButterfly, 1200);
