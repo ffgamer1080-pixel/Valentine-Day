@@ -1,96 +1,80 @@
-/* 🔆 KEEP SCREEN ON */
+// ================= PHOTOS =================
+const photos = [
+  "Photo/s1.jpg",
+  "Photo/s2.jpg",
+  "Photo/s3.jpg",
+  "Photo/s4.jpg",
+  "Photo/s5.jpg",
+  "Photo/s6.jpg"
+];
 
-let wakeLock = null;
-async function keepScreenOn() {
-  try {
-    wakeLock = await navigator.wakeLock.request("screen");
-  } catch {}
-}
-document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible") keepScreenOn();
-});
-keepScreenOn();
+// ================ WINGS ===================
+const WING_LEFT = "Butterfly/wing-left.png";
+const WING_RIGHT = "Butterfly/wing-right.png";
 
-/* 🎵 MUSIC TOGGLE */
-
+// ================ ELEMENTS =================
+const sky = document.getElementById("sky");
 const music = document.getElementById("bgMusic");
 const toggle = document.getElementById("musicToggle");
 
-music.volume = 0.4;
-music.play().catch(()=>{});
-
-toggle.onclick = () => {
-  if (music.paused) {
-    music.play();
-    toggle.innerText = "🎵";
-    toggle.classList.remove("music-off");
-  } else {
-    music.pause();
-    toggle.innerText = "🔇";
-    toggle.classList.add("music-off");
-  }
-};
-
-/* 📸 PHOTO RAIN – FASTER */
-
-const photos = [
-  "Photo/s1.jpg","Photo/s2.jpg","Photo/s3.jpg",
-  "Photo/s4.jpg","Photo/s5.jpg","Photo/s6.jpg"
-];
-
-const photoRain = document.getElementById("photoRain");
-const butterflyLayer = document.getElementById("butterflyLayer");
-
-function createPhoto() {
-  const img = document.createElement("img");
-  img.src = photos[Math.floor(Math.random()*photos.length)];
-  img.className = "rain-photo";
-
-  img.style.left = Math.random() * window.innerWidth + "px";
-
-  /* 🚀 SPEED UP HERE */
-  img.style.animationDuration = 7 + Math.random()*3 + "s"; // FAST DROP
-
-  photoRain.appendChild(img);
-
-  // 🦋 Butterfly chance
-  if (Math.random() < 0.35) {
-    setTimeout(() => catchByButterfly(img), 1800);
-  }
-
-  setTimeout(()=>img.remove(),12000);
+// ================ WAKE LOCK ================
+if ("wakeLock" in navigator) {
+  navigator.wakeLock.request("screen").catch(() => {});
 }
 
-/* 🚀 MORE FREQUENT PHOTOS */
-setInterval(createPhoto, 700);
+// ================ MUSIC ====================
+let isPlaying = false;
+toggle.addEventListener("click", () => {
+  if (isPlaying) {
+    music.pause();
+    toggle.textContent = "🎵";
+  } else {
+    music.play();
+    toggle.textContent = "🔊";
+  }
+  isPlaying = !isPlaying;
+});
 
-/* 🦋 BUTTERFLY CATCH */
-
-function catchByButterfly(photo) {
-  if (!photo.parentNode) return;
-
-  const rect = photo.getBoundingClientRect();
-  photo.remove();
-
-  const wrapper = document.createElement("div");
-  wrapper.className = "butterfly-wrapper";
-  wrapper.style.left = rect.left + "px";
-  wrapper.style.top = rect.top + "px";
-  wrapper.style.animationDuration = 6 + Math.random()*2 + "s";
-
-  const img = document.createElement("img");
-  img.src = photo.src;
-  img.style.width = "90px";
-  img.style.borderRadius = "12px";
-  img.style.marginBottom = "4px";
-
+// ================ BUTTERFLY ================
+function createButterfly() {
   const butterfly = document.createElement("div");
   butterfly.className = "butterfly";
-  butterfly.innerText = "🦋";
 
-  wrapper.appendChild(img);
-  wrapper.appendChild(butterfly);
-  butterflyLayer.appendChild(wrapper);
+  const body = document.createElement("img");
+  body.className = "body";
+  body.src = photos[Math.floor(Math.random() * photos.length)];
 
-  setTimeout(()=>wrapper.remove(),9000);
+  const leftWing = document.createElement("img");
+  leftWing.className = "wing left";
+  leftWing.src = WING_LEFT;
+
+  const rightWing = document.createElement("img");
+  rightWing.className = "wing right";
+  rightWing.src = WING_RIGHT;
+
+  butterfly.append(leftWing, body, rightWing);
+  sky.appendChild(butterfly);
+
+  let x = Math.random() * (window.innerWidth - 160);
+  let y = window.innerHeight + 160;
+
+  const speed = 0.8 + Math.random() * 0.8;
+  const drift = (Math.random() - 0.5) * 0.6;
+
+  function fly() {
+    y -= speed;
+    x += drift;
+    butterfly.style.transform = `translate(${x}px, ${y}px)`;
+
+    if (y > -200) {
+      requestAnimationFrame(fly);
+    } else {
+      butterfly.remove();
+    }
+  }
+
+  fly();
 }
+
+// ================ SPAWN ====================
+setInterval(createButterfly, 1200);
