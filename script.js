@@ -1,85 +1,83 @@
-/* =========================
-   ROTATE + MUSIC (SOFT)
-   ========================= */
+/* 🎵 MUSIC TOGGLE */
 
-const overlay = document.getElementById("rotateOverlay");
 const music = document.getElementById("bgMusic");
-let musicStarted = false;
+const toggle = document.getElementById("musicToggle");
 
-music.volume = 0.4; // 💗 soft romantic volume
+music.volume = 0.4;
+music.play().catch(()=>{});
 
-function checkOrientation() {
-  if (window.innerWidth > window.innerHeight) {
-    overlay.style.display = "none";
-    if (!musicStarted) {
-      music.play().catch(()=>{});
-      musicStarted = true;
-    }
+toggle.onclick = () => {
+  if (music.paused) {
+    music.play();
+    toggle.innerText = "🎵";
+    toggle.classList.remove("music-off");
   } else {
-    overlay.style.display = "flex";
+    music.pause();
+    toggle.innerText = "🔇";
+    toggle.classList.add("music-off");
   }
-}
+};
 
-window.addEventListener("resize", checkOrientation);
-window.addEventListener("orientationchange", checkOrientation);
-checkOrientation();
-
-/* =========================
-   PHOTO RAIN (SLOW MODE)
-   ========================= */
+/* 📸 PHOTO RAIN */
 
 const photos = [
-  "Photo/s1.jpg",
-  "Photo/s2.jpg",
-  "Photo/s3.jpg",
-  "Photo/s4.jpg",
-  "Photo/s5.jpg",
-  "Photo/s6.jpg"
+  "Photo/s1.jpg","Photo/s2.jpg","Photo/s3.jpg",
+  "Photo/s4.jpg","Photo/s5.jpg","Photo/s6.jpg"
 ];
 
 const photoRain = document.getElementById("photoRain");
+const butterflyLayer = document.getElementById("butterflyLayer");
 
-function createPhotoRain() {
+function createPhoto() {
   const img = document.createElement("img");
-  img.src = photos[Math.floor(Math.random() * photos.length)];
+  img.src = photos[Math.floor(Math.random()*photos.length)];
   img.className = "rain-photo";
-
-  img.style.left = Math.random() * window.innerWidth + "px";
-  img.style.animationDuration = 12 + Math.random() * 6 + "s"; // 💗 slow fall
-
+  img.style.left = Math.random()*window.innerWidth+"px";
+  img.style.animationDuration = 14 + Math.random()*6 + "s";
   photoRain.appendChild(img);
 
-  setTimeout(() => img.remove(), 18000);
-}
-
-setInterval(createPhotoRain, 1200); // 💗 slow frequency
-
-/* =========================
-   CENTER TEXT (SLOW TYPE)
-   ========================= */
-
-const texts = [
-  "HAPPY VALENTINE 💖",
-  "MY SWEETHEART ❤️",
-  "YOU ARE MY WORLD 🌍",
-  "I LOVE YOU 💌"
-];
-
-const mainText = document.getElementById("mainText");
-let t = 0, c = 0;
-
-function typeEffect() {
-  if (c < texts[t].length) {
-    mainText.innerHTML += texts[t][c++];
-    mainText.classList.add("beat");
-    setTimeout(() => mainText.classList.remove("beat"), 600);
-  } else {
-    setTimeout(() => {
-      mainText.innerHTML = "";
-      c = 0;
-      t = (t + 1) % texts.length;
-    }, 3000);
+  // 🦋 30% chance butterfly catches photo
+  if (Math.random() < 0.3) {
+    setTimeout(() => catchByButterfly(img), 3000);
   }
+
+  setTimeout(()=>img.remove(),22000);
 }
 
-setInterval(typeEffect, 220); // 💗 slow typing
+setInterval(createPhoto, 1300);
+
+/* 🦋 BUTTERFLY RANDOM LEFT / RIGHT */
+
+function catchByButterfly(photo) {
+  if (!photo.parentNode) return;
+
+  const rect = photo.getBoundingClientRect();
+  photo.remove();
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "butterfly-wrapper";
+
+  // Random LEFT or RIGHT movement
+  const direction = Math.random() < 0.5 ? -1 : 1;
+  const horizontalShift = 120 + Math.random()*180;
+
+  wrapper.style.left = rect.left + "px";
+  wrapper.style.top = rect.top + "px";
+  wrapper.style.transform = `translateX(${direction * horizontalShift}px)`;
+  wrapper.style.animationDuration = 7 + Math.random()*3 + "s";
+
+  const img = document.createElement("img");
+  img.src = photo.src;
+  img.style.width = "90px";
+  img.style.borderRadius = "12px";
+
+  const butterfly = document.createElement("div");
+  butterfly.className = "butterfly";
+  butterfly.innerText = "🦋";
+
+  wrapper.appendChild(img);
+  wrapper.appendChild(butterfly);
+  butterflyLayer.appendChild(wrapper);
+
+  setTimeout(()=>wrapper.remove(),10000);
+}
