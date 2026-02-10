@@ -1,129 +1,98 @@
 body {
   margin: 0;
-  padding: 0;
   background: #000;
   overflow: hidden;
   font-family: Arial, sans-serif;
 }
 
-/* ======================
-   PHOTO RAIN (SLOW)
-   ====================== */
+/* PHOTO RAIN */
 
-#photoRain {
+#photoRain, #butterflyLayer {
   position: fixed;
   inset: 0;
-  z-index: 1;
   pointer-events: none;
 }
 
 .rain-photo {
   position: absolute;
-  top: -100px;
-  width: 70px;
-  height: 90px;
+  top: -180px;
+
+  /* 🔥 BIG & BRIGHT PHOTO */
+  width: 110px;
+  height: 150px;
+
   object-fit: cover;
-  border-radius: 15px;
-  opacity: 1.75;
-  filter: blur(0.3px);
+  border-radius: 14px;
+
+  /* 🌟 BRIGHTNESS + COLOR BOOST */
+  filter: brightness(1.4) contrast(1.1) saturate(1.2);
+
+  opacity: 0.95;
+
+  box-shadow:
+    0 0 30px rgba(255,77,166,0.45),
+    0 0 60px rgba(255,77,166,0.25);
+
   animation: fallSlow linear forwards;
 }
 
 @keyframes fallSlow {
   to {
-    transform: translateY(130vh) rotate(8deg);
+    transform: translateY(140vh) rotate(10deg);
     opacity: 0;
   }
 }
 
-/* ======================
-   CENTER MAIN TEXT
-   ====================== */
+/* 🦋 BUTTERFLY FLIGHT */
 
-.headline {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 5;
-  width: 100%;
-  text-align: center;
-
-  font-size: 36px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  color: #ff4da6;
-  text-shadow: 0 0 30px rgba(255,77,166,1);
-  min-height: 50px;
-}
-
-/* 💓 Slow glowing romantic pulse */
-.headline::before {
-  content: "";
+.butterfly-wrapper {
   position: absolute;
+  animation: flyUp linear forwards;
+}
+
+@keyframes flyUp {
+  to {
+    transform: translateY(-140vh);
+    opacity: 0;
+  }
+}
+
+.butterfly {
+  font-size: 34px;
+  margin-top: 6px;
+  filter: brightness(1.3);
+}
+
+/* 🎵 MUSIC BUTTON */
+
+#musicToggle {
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 300px;
+  z-index: 20;
+
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(255,77,166,0.35) 0%,
-    rgba(255,77,166,0.18) 45%,
-    rgba(255,77,166,0) 70%
-  );
-  filter: blur(18px);
-  z-index: -1;
-  animation: glowPulseSlow 7s ease-in-out infinite;
-}
 
-@keyframes glowPulseSlow {
-  0%   { transform: translate(-50%, -50%) scale(1); opacity: .6; }
-  50%  { transform: translate(-50%, -50%) scale(1.18); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(1); opacity: .6; }
-}
-
-/* Beat sync (soft) */
-.headline.beat::before {
-  animation: beatGlowSlow 1s ease-out;
-}
-
-@keyframes beatGlowSlow {
-  0%   { transform: translate(-50%, -50%) scale(1); }
-  50%  { transform: translate(-50%, -50%) scale(1.25); }
-  100% { transform: translate(-50%, -50%) scale(1); }
-}
-
-/* ======================
-   ROTATE OVERLAY
-   ====================== */
-
-#rotateOverlay {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  z-index: 9999;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #ff4da6;
-  font-size: 18px;
-  letter-spacing: 2px;
+
+  font-size: 30px;
+  cursor: pointer;
+
+  background: rgba(255,77,166,0.18);
+  box-shadow:
+    0 0 30px rgba(255,77,166,0.9),
+    inset 0 0 18px rgba(255,77,166,0.6);
+
+  animation: pulse 3s infinite;
 }
 
-.phone {
-  width: 80px;
-  height: 140px;
-  border: 3px solid #ff4da6;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  animation: rotatePhone 2.5s infinite ease-in-out;
+@keyframes pulse {
+  50% { transform: translate(-50%, -50%) scale(1.15); }
 }
 
-@keyframes rotatePhone {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(90deg); }
-  100% { transform: rotate(0deg); }
-}
+.music-off { opacity: 0.5; }
